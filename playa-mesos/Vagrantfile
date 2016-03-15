@@ -77,16 +77,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       master_ip = hosts["mesos-master"]["ip"]
 
-      if pmconf.mesos_release != "" && pmconf.has_key?("mesos_release")
+      if pmconf.instance_variable_get(:@settings).include?('mesos_release')
         mesos_release = pmconf.mesos_release.split('-')[0]
       else
         mesos_release = "0.26.0"
       end
 
-      if pmconf.isolator_version != "" && pmconf.has_key?("isolator_version") 
+      if pmconf.instance_variable_get(:@settings).include?('isolator_version')
         isolator_version = pmconf.isolator_version
       else
-        isolator_version = "0.4.0"
+        isolator_version = "0.4.1"
       end
 
 
