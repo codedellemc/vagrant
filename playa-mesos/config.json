@@ -25,7 +25,7 @@
       "ip":"10.141.141.14",
       "external_volumes":true
     }
-	},
+  },
   "vm_ram": "1024",
   "vm_cpus": "1"
 }
