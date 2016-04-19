@@ -58,6 +58,10 @@ properties:
 EOF
 scripts/generate-bosh-lite-dev-manifest bosh-lite/stubs/cfmesos.yml
 
+pushd diego-release/src/github.com/cloudfoundry-incubator/auctioneer/cmd/auctioneer/
+sed -i '' 's|"github.com/codenrhoden/cloudfoundry-mesos/scheduler/auctionrunner"|"github.com/cloudfoundry-incubator/auction/auctionrunner"|g' main.go
+popd
+
 bosh deployment bosh-lite/deployments/cf.yml
 bosh create release --name cf --force
 bosh -n upload release
