@@ -27,7 +27,7 @@ secondmdmip = "#{network}.13"
 clusterinstall = "True" #If True a fully working ScaleIO cluster is installed. False mean only IM is installed on node MDM1.
 
 # Install Docker and REX-Ray automatically
-rexrayinstall = "True"
+rexrayinstall = "False"
 
 # version of installation package
 version = "2.0-0.0"
@@ -68,10 +68,12 @@ Vagrant.configure("2") do |config|
   #config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 
   config.trigger.after :up, :stdout => true, :vm => ["mdm2"] do
-    info "Restarting Docker on all nodes"
-    run "vagrant ssh tb -c 'sudo service docker restart'"
-    run "vagrant ssh mdm1 -c 'sudo service docker restart'"
-    run "vagrant ssh mdm2 -c 'sudo service docker restart'"
+    if rexrayinstall == "True"
+      info "Restarting Docker on all nodes"
+      run "vagrant ssh tb -c 'sudo service docker restart'"
+      run "vagrant ssh mdm1 -c 'sudo service docker restart'"
+      run "vagrant ssh mdm2 -c 'sudo service docker restart'"
+    end
   end
 
   scaleio_nodes.each do |node|
