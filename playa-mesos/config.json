@@ -30,7 +30,7 @@
       "external_volumes":true,
       "enable_consul": false
     }
-	},
+  },
   "vm_ram": "1024",
   "vm_cpus": "1"
 }
