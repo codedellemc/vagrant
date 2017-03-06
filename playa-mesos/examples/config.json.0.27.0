@@ -1,0 +1,21 @@
+{
+	"platform": "virtualbox",
+	"box_name": "playa_mesos_ubuntu_14.04_201601041324",
+	"base_url": "http://downloads.mesosphere.io/playa-mesos",
+	"mesos_release": "0.27.0-0.2.190.ubuntu1404",
+	"isolator_version": "0.4.1",
+	"hosts": {
+		"mesos-master": {
+			"ip": "10.141.141.10",
+			"vm_ram": "1612",
+			"vm_cpus": "1",
+			"external_volumes": true
+		},
+		"mesos-slave1": {
+			"ip": "10.141.141.11",
+			"vm_ram": "1024",
+			"vm_cpus": "1",
+			"external_volumes": true
+		}
+	}
+}
