@@ -8,6 +8,10 @@ do
     K8S_VERSION="$2"
     shift
     ;;
+    -csi|--K8S_CSI)
+    K8S_CSI="$2"
+    shift
+    ;;
     -msip|--master_ip)
     MASTER_IP="$2"
     shift
@@ -40,6 +44,7 @@ do
 done
 
 echo K8S_VERSION = "${K8S_VERSION}"
+echo K8S_CSI = "${K8S_CSI}"
 echo MASTER_IP = "${MASTER_IP}"
 echo NODE01_IP = "${NODE01_IP}"
 echo NODE02_IP = "${NODE02_IP}"
@@ -206,7 +211,7 @@ done
 cd /vagrant
 
 #Install Kubernetes Components
-/vagrant/scripts/k8s-controller.sh -k8sv ${K8S_VERSION} -msip ${MASTER_IP} -n1ip ${NODE01_IP} -n2ip ${NODE02_IP} -si ${SCALEIO_INSTALL}
+/vagrant/scripts/k8s-controller.sh -k8sv ${K8S_VERSION} -csi ${K8S_CSI} -msip ${MASTER_IP} -n1ip ${NODE01_IP} -n2ip ${NODE02_IP} -si ${SCALEIO_INSTALL}
 
 if [[ -n $1 ]]; then
   echo "Last line of file specified as non-opt/last argument:"

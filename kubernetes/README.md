@@ -23,6 +23,7 @@ Environment Details:
 Set the following environment variables depending on your needs:
 
  - `K8S_VERSION` - Default is `1.9.0`. Set to version tag of Kubernetes release you would like to install.
+ - `K8S_CSI` - Default is `true`. Set to `false` if you want to use Kubernetes with CSI disabled or if you want to use the built-in scaleio driver.
  - `NODE_MEMORY` - Default is `3072`. Recommended memory is at least 1024MB for node01 and node02. Master will always use 2048MB
  - `SCALEIO_INSTALL` - Default is `true`. If `true` will deploy a 3-node ScaleIO cluster.
  - `VERIFY_FILES` - Default is `true`. This will verify the ScaleIO package is available for download.

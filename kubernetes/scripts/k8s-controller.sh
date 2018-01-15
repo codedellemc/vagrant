@@ -8,6 +8,10 @@ do
     K8S_VERSION="$2"
     shift
     ;;
+    -csi|--K8S_CSI)
+    K8S_CSI="$2"
+    shift
+    ;;
     -msip|--master_ip)
     MASTER_IP="$2"
     shift
@@ -34,6 +38,7 @@ done
 echo "Installing Kubernetes controller components"
 
 echo K8S_INSTALL = "${K8S_INSTALL}"
+echo K8S_CSI = "${K8S_CSI}"
 echo MASTER_IP = "${MASTER_IP}"
 echo NODE01_IP = "${NODE01_IP}"
 echo NODE02_IP = "${NODE02_IP}"
@@ -193,6 +198,11 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 EOF
+
+if [ "$K8S_CSI" == "false" ]; then
+  sed -i '/feature-gates/d' kube-apiserver.service
+fi
+
 mv kube-apiserver.service /etc/systemd/system/
 echo "Starting kube-apiserver service"
 systemctl daemon-reload
@@ -232,6 +242,11 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 EOF
+
+if [ "$K8S_CSI" == "false" ]; then
+  sed -i '/feature-gates/d' kube-controller-manager.service
+fi
+
 mv kube-controller-manager.service /etc/systemd/system/
 echo "Starting Kubernetes Controller Manager Service"
 systemctl daemon-reload
@@ -338,6 +353,12 @@ subjects:
     kind: User
     name: kubernetes
 EOF
+
+if [ "$K8S_CSI" == "false" ]; then
+  rm -rf /home/vagrant/csi-scaleio
+else
+  rm -rf /home/vagrant/scaleio
+fi
 
 echo "Installing helm"
 tar zxf /vagrant/cache/helm-v2.7.2-linux-amd64.tar.gz linux-amd64/helm --strip-components=1

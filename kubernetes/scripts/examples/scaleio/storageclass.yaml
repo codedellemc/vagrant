@@ -1,0 +1,15 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  annotations:
+    storageclass.beta.kubernetes.io/is-default-class: "true"
+  name: scaleio
+provisioner: kubernetes.io/scaleio
+parameters:
+  gateway: https://192.168.50.11:8443/api 
+  protectionDomain: pd1
+  storagePool: pd1pool1
+  system: cluster1
+  secretRef: scaleio-secret
+  secretNamespace: scaleio
+  fsType: xfs

@@ -8,6 +8,10 @@ do
     K8S_VERSION="$2"
     shift
     ;;
+    -csi|--K8S_CSI)
+    K8S_CSI="$2"
+    shift
+    ;;
     -msip|--master_ip)
     MASTER_IP="$2"
     shift
@@ -119,6 +123,11 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 EOF
+
+if [ "$K8S_CSI" == "false" ]; then
+  sed -i '/feature-gates/d' kubelet.service
+  sed -i '/enable-controller/d' kubelet.service
+fi
 
 echo "Starting kubelet service"
 mv kubelet.service /etc/systemd/system/

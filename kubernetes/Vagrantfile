@@ -41,7 +41,14 @@ end
 if ENV['K8S_VERSION']
   k8s_version = ENV['K8S_VERSION'].to_s.downcase
 else
-  k8s_version = "1.9.0"
+  k8s_version = "1.9.1"
+end
+
+# Enable Alpha Support for CSI
+if ENV['K8S_CSI']
+  k8s_csi = ENV['K8S_CSI'].to_s.downcase
+else
+  k8s_csi = "true"
 end
 
 # In some cases more memory is needed for applications.
@@ -105,7 +112,7 @@ Vagrant.configure("2") do |config|
 
         node_config.vm.provision "shell" do |s|
           s.path = "scripts/master.sh"
-          s.args = "-k8sv #{k8s_version} -msip #{master_ip} -n1ip #{node01_ip} -n2ip #{node02_ip} -si #{scaleio_install} -vf #{verifyfiles}"
+          s.args = "-k8sv #{k8s_version} -csi #{k8s_csi} -msip #{master_ip} -n1ip #{node01_ip} -n2ip #{node02_ip} -si #{scaleio_install} -vf #{verifyfiles}"
         end
       end
 
@@ -116,7 +123,7 @@ Vagrant.configure("2") do |config|
 
         node_config.vm.provision "shell" do |s|
           s.path = "scripts/node01.sh"
-          s.args = "-k8sv #{k8s_version} -msip #{master_ip} -n1ip #{node01_ip} -n2ip #{node02_ip} -si #{scaleio_install} -vf #{verifyfiles}"
+          s.args = "-k8sv #{k8s_version} -csi #{k8s_csi} -msip #{master_ip} -n1ip #{node01_ip} -n2ip #{node02_ip} -si #{scaleio_install} -vf #{verifyfiles}"
         end
       end
 
@@ -127,7 +134,7 @@ Vagrant.configure("2") do |config|
 
         node_config.vm.provision "shell" do |s|
           s.path = "scripts/node02.sh"
-          s.args = "-k8sv #{k8s_version} -msip #{master_ip} -n1ip #{node01_ip} -n2ip #{node02_ip} -si #{scaleio_install} -sp #{scaleio_password} -vf #{verifyfiles}"
+          s.args = "-k8sv #{k8s_version} -csi #{k8s_csi} -msip #{master_ip} -n1ip #{node01_ip} -n2ip #{node02_ip} -si #{scaleio_install} -sp #{scaleio_password} -vf #{verifyfiles}"
         end
       end
 
